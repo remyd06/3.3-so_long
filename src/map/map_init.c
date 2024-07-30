@@ -12,6 +12,28 @@
 
 #include "../../includes/so_long.h"
 
+/* Calculate the map volume for malloc. */
+int	map_volume(int fd)
+{
+	int		count;
+	char	buffer;
+	int		byte_read;
+
+	count = 0;
+	buffer = 0;
+	byte_read = 1;
+	while (byte_read > 0)
+	{
+		byte_read = read(fd, &buffer, 1);
+		if (buffer == '\n')
+			count++;
+	}
+	if (buffer != '\n' && byte_read == 0)
+		count++;
+	close(fd);
+	return (count);
+}
+
 /* Check if map.ber open without error and malloc the map array. */
 void	checkfd_malloc(int fd, char **return_map)
 {
@@ -20,7 +42,7 @@ void	checkfd_malloc(int fd, char **return_map)
 		ft_strerror("Error file not found.");
 		return (NULL);
 	}
-	return_map = (char**)malloc(sizeof(char *) * (max_line + 1));
+	return_map = (const char**)malloc(sizeof(const char *) * (map_volume(fd) + 1));
 	if (!return_map)
 	{
 		ft_strerror("Memory allocation for map has failed.");
@@ -34,7 +56,6 @@ char	**map_init(const char *filename)
 {
 	char	**return_map;
 	char	*line;
-	int		max_line;
 	int		fd;
 	int		i;
 
@@ -45,10 +66,6 @@ char	**map_init(const char *filename)
 	while ((line = get_next_line(fd)))
 	{
 		return_map[i] = line;
-		if (i > max_line)
-		{
-			ft_realloc
-		}
 		i++;
 	}
 	return_map[i] = '\0';

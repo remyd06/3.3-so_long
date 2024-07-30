@@ -28,16 +28,16 @@ void    main_parser(int argc, char **argv)
     if ((argv[1][i - 4] != '.') && (argv[1][i - 3] != 'b') && (argv[1][i - 4] != 'e') &&
      (argv[1][i - 4] != 'r'))
      {
-        ft_strerror("Wrong map file.");
+        ft_strerror("Wrong map path file.");
         return ;
      }
 }
 
 int	main(int argc, char **argv)
 {
-    t_map map;
+    t_map game;
     
     main_parser(argc, argv);
-    map.map = map_init(argv[1]);
-    map_parsing(&map);
+    game.map = map_init(argv[1]);
+    map_parsing(&game);
 }

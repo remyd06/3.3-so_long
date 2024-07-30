@@ -13,7 +13,7 @@
 #include "../includes/so_long.h"
 
 /* For check_deitex function in map_parsing.c. */
-int count_char_occurrences_in_array(t_map *map, char c)
+int count_char_occurrences_in_array(t_map *game, char c)
 {
     int count;
     int i;
@@ -21,18 +21,18 @@ int count_char_occurrences_in_array(t_map *map, char c)
 
     count = 0;
     i = 0;
-    while (array[i])
+    while (game->map[i])
     {
         j = 0;
-        while (array[i][j])
+        while (game->map[i][j])
         {
-            if (array[i][j] == c)
+            if (game->map[i][j] == c)
                 count++;
             j++;
         }
         i++;
     }
 
-    return count;
+    return (count);
 }
 

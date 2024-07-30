@@ -25,13 +25,30 @@
 #  define BUFFER_SIZE 42
 # endif
 
-/* Structure who contains all elements of game. */
-typedef struct s_map
+/* Read facilities who return true or false in a function. */
+typedef enum    e_bool
 {
-    const char **map;
-    int         player;
-    int         item;
-    int         exit;
+	false = 0,
+	true = 1
+}	t_bool;
+
+struct  s_pos
+{
+    unsigned int x;
+    unsigned int y;
+};
+
+/* Structure who contains all elements of game. */
+typedef struct  s_map
+{
+    struct          s_pos;
+    const char      **map;
+    char            **floodfill;
+    unsigned int    height;
+    unsigned int    width;
+    int             begin;
+    int             item;
+    int             exit;
 
 }   t_map;
 
@@ -42,14 +59,14 @@ char	*ft_strchr(char *str, char target);
 char	*ft_strjoin(char *stash, char *buffer);
 char	*ft_strdup(char *str);
 void    ft_strerror(const char *str);
-void    free_map(t_map *map);
-int		count_char_occurrences_in_array(t_map *map, char c);
-void    check_walls(t_map *map, int map_length, int map_width);
+void    free_map(t_map *game);
+int		count_char_occurrences_in_array(t_map *game, char c);
+void    check_walls(t_map *game, int map_length, int map_width);
 
 /* Map */
 char	**map_init(const char *filename);
-void	map_parsing(t_map *map);
-void    map_pathfinder(t_map *map);
+void	map_parsing(t_map *game);
+void    map_pathfinder(t_map *game);
 
 
 #endif

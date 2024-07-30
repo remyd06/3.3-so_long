@@ -13,17 +13,17 @@
 #include "../includes/so_long.h"
 
 /* For check_surronded function in map_parsing.c. */
-void    check_walls(t_map *map, int map_length, int map_width)
+void    check_walls(t_map *game, int map_length, int map_width)
 {
     int i;
 
     i = 0;
  	while (i < map_length) 
 	{
-        if (map[0][i] != '1' || map[map_length - 1][i] != '1') 
+        if (game->map[0][i] != '1' || game->map[map_length - 1][i] != '1') 
 		{
             ft_strerror("Map is not surrounded by walls");
-			free_map(map);
+			free_map(game);
             return ;
 		}
 		i++;
@@ -31,10 +31,10 @@ void    check_walls(t_map *map, int map_length, int map_width)
 	i = 0;
 	while (i < map_width) 
 	{
-		if (map[i][0] != '1' || map[i][map_width - 1] != '1') 
+		if (game->map[i][0] != '1' || game->map[i][map_width - 1] != '1') 
 		{
 			ft_strerror("Map is not surrounded by walls");
-			free_map(map);
+			free_map(game);
 			return ;
 		}
 		i++;

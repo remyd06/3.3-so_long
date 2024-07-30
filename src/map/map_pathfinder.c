@@ -13,7 +13,12 @@
 #include "../../includes/so_long.h"
 
 /* Check if the path between the player and the exit is possible. */
-void    map_pathfinder(t_map *map)
+void    map_pathfinder(t_map *game)
 {
-    
+    t_bool	valid;
+
+	floodfill_alloc(game);
+	valid = floodfill(game);
+	floodfill_free(game);
+	return (valid);
 }

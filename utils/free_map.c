@@ -13,15 +13,15 @@
 #include "../includes/so_long.h"
 
 /* For free the map incase of error. */
-void    free_map(t_map *map)
+void    free_map(t_map *game)
 {
     int i;
 
     i = 0;
-    while(map[i])
+    while(game->map[i])
     {
-        free(map[i]);
+        free(game->map[i]);
         i++;
     }
-    free(map);
+    free(game->map);
 }
