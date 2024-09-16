@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdedola <rdedola@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: rdedola <rdedola@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 17:47:14 by rdedola           #+#    #+#             */
-/*   Updated: 2024/07/21 17:47:14 by rdedola          ###   ########.fr       */
+/*   Created: 2024/09/16 13:29:24 by rdedola           #+#    #+#             */
+/*   Updated: 2024/09/16 13:29:24 by rdedola          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,40 +35,43 @@ int	map_volume(int fd)
 }
 
 /* Check if map.ber open without error and malloc the map array. */
-void	checkfd_malloc(int fd, char **return_map)
+int	checkfd_malloc(int fd, t_map *game)
 {
+	int	i;
+
+	i = map_volume(fd);
 	if (fd == -1)
 	{
 		ft_strerror("Error file not found.");
-		return (NULL);
+		exit(1);
 	}
-	return_map = (const char**)malloc(sizeof(const char *) * (map_volume(fd) + 1));
-	if (!return_map)
+	game->map = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!game->map)
 	{
 		ft_strerror("Memory allocation for map has failed.");
 		close(fd);
-		return (NULL);
+		exit(1);
 	}
+	close(fd);
+	return (i);
 }
 
 /* Read and put he map of the .ber in an **array */
-char	**map_init(const char *filename)
+void	map_init(const char *filename, t_map *game)
 {
-	char	**return_map;
-	char	*line;
-	int		fd;
-	int		i;
+	int	fd;
+	int	i;
+	int	max;
 
-	max_line = 7;
 	fd = open(filename, O_RDONLY);
-	checkfd_malloc(fd, return_map);
+	max = checkfd_malloc(fd, game);
+	fd = open(filename, O_RDONLY);
 	i = 0;
-	while ((line = get_next_line(fd)))
+	while (i < max)
 	{
-		return_map[i] = line;
+		game->map[i] = get_next_line(fd);
 		i++;
 	}
-	return_map[i] = '\0';
-	close(fd); 
-	return (return_map);
+	game->map[i] = NULL;
+	close(fd);
 }

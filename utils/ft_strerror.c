@@ -24,4 +24,5 @@ void    ft_strerror(const char *str)
         i++;
     }
     write(1, "\n", 1);
+	exit(1);
 }
